@@ -1,0 +1,76 @@
+[gd_scene load_steps=10 format=3 uid="uid://pdea7ylg53we"]
+
+[ext_resource type="Script" uid="uid://ocgwntmh05jy" path="res://script/RTS_Camera.gd" id="1_pjass"]
+[ext_resource type="Texture2D" uid="uid://b0w3ojc7loamf" path="res://image/ui_select_rectangle.png" id="1_txmk2"]
+[ext_resource type="Script" uid="uid://bjacynlglnqn8" path="res://script/player_interface.gd" id="1_w4qq1"]
+[ext_resource type="PackedScene" uid="uid://baamvejwnsqti" path="res://scene/testunit.tscn" id="4_m5mgf"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_w4qq1"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_gv5m4"]
+sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+
+[sub_resource type="Sky" id="Sky_f3sb7"]
+sky_material = SubResource("ProceduralSkyMaterial_gv5m4")
+
+[sub_resource type="Environment" id="Environment_fj7yv"]
+background_mode = 2
+sky = SubResource("Sky_f3sb7")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tlwt5"]
+albedo_color = Color(0.865399, 0.51862, 0.288984, 1)
+
+[node name="world" type="Node3D"]
+
+[node name="Player_Interface" type="Node2D" parent="."]
+script = ExtResource("1_w4qq1")
+metadata/_edit_lock_ = true
+
+[node name="Button" type="Button" parent="Player_Interface"]
+offset_left = 91.0
+offset_top = 465.0
+offset_right = 258.0
+offset_bottom = 496.0
+text = "Player Test Interface
+"
+
+[node name="ui_dragbox" type="NinePatchRect" parent="Player_Interface"]
+offset_right = 8.0
+offset_bottom = 8.0
+texture = ExtResource("1_txmk2")
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 4
+patch_margin_bottom = 4
+
+[node name="camera_base" type="Node3D" parent="Player_Interface"]
+script = ExtResource("1_pjass")
+
+[node name="camera_socket" type="Node3D" parent="Player_Interface/camera_base"]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Player_Interface/camera_base/camera_socket"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.58579, 1.41421)
+
+[node name="visibleunits_area3D" type="Area3D" parent="Player_Interface/camera_base"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player_Interface/camera_base/visibleunits_area3D"]
+transform = Transform3D(100, 0, 0, 0, 1, 0, 0, 0, 100, 0, 0, 0)
+shape = SubResource("BoxShape3D_w4qq1")
+
+[node name="testunit" parent="Player_Interface" instance=ExtResource("4_m5mgf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.450793, -2)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_fj7yv")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+
+[node name="floor" type="CSGBox3D" parent="."]
+transform = Transform3D(45, 0, 0, 0, 1, 0, 0, 0, 45, 4.76837e-07, -1, 0)
+material = SubResource("StandardMaterial3D_tlwt5")

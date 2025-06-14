@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://baamvejwnsqti"]
+
+[ext_resource type="Script" uid="uid://77vgtjndy2cd" path="res://script/testunit.gd" id="1_7tvtk"]
+[ext_resource type="Texture2D" uid="uid://b0w3ojc7loamf" path="res://image/ui_select_rectangle.png" id="2_wrxq8"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_fs084"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_7tvtk"]
+
+[node name="testunit" type="Node3D"]
+script = ExtResource("1_7tvtk")
+
+[node name="selected" type="Sprite3D" parent="."]
+transform = Transform3D(15, 0, 0, 0, -6.55671e-07, -15, 0, 15, -6.55671e-07, 0.266918, 0, 0)
+modulate = Color(0, 0.658331, 0.459759, 1)
+texture = ExtResource("2_wrxq8")
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
+shape = SubResource("CylinderShape3D_fs084")
+
+[node name="unit_graphics" type="MeshInstance3D" parent="CharacterBody3D"]
+mesh = SubResource("CylinderMesh_7tvtk")
+skeleton = NodePath("../..")
